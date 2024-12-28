@@ -1,8 +1,7 @@
 from datetime import datetime, timedelta
 from typing import Optional
 import pandas as pd
-
-from src.utils import read_all_data
+from src.utils import read_all_data, reports_result
 
 
 def spending_by_category(transactions: pd.DataFrame, category: str, date: Optional[str] = None) -> pd.DataFrame:
@@ -19,5 +18,5 @@ def spending_by_category(transactions: pd.DataFrame, category: str, date: Option
     return filtered_transactions[['Дата платежа', 'Категория', 'Сумма платежа']]
 
 
-# data = read_all_data('C:/Users/USER/PycharmProjects/analysis_of_banking_operations/data/operations.xlsx')
-# print(spending_by_category(data, 'Аптеки', '12.10.2020'))
+data = read_all_data('C:/Users/USER/PycharmProjects/analysis_of_banking_operations/data/operations.xlsx')
+print(spending_by_category(data, 'Супермаркеты', '12.10.2020'))
