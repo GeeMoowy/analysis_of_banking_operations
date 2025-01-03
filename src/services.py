@@ -1,18 +1,28 @@
+import json
+from datetime import datetime
+
 import pandas as pd
 
+from src.utils import read_excel
 
-def categories_for_cashback(my_data, year, month):
+
+def categories_for_cashback(my_data: pd.DataFrame, date: str) -> str:
     """Функция принимает данные для анализа, год и месяц и анализирует,
-    сколько можно заработать кэшбека по каждой категории покупок"""
-    my_data['Дата платежа'] = pd.to_datetime(my_data['Дата платежа'], format='%d.%m.%Y')
-    filtered_data_by_date = my_data[(my_data['Дата платежа'].dt.month == month) &
-                                    (my_data['Дата платежа'].dt.year == year)]
-    expenses_data = filtered_data_by_date[filtered_data_by_date['Сумма операции'] < 0]
-    cashback_by_category = expenses_data.groupby('Категория')['Сумма операции'].sum().abs()
+    сколько можно заработать кэшбека по каждой категории покупок в указанную дату"""
+    date_time_obj = datetime.strptime(date, "%Y-%m-%d %H:%M:%S")
+    month = date_time_obj.month
+    year = date_time_obj.year
+    my_data["Дата платежа"] = pd.to_datetime(my_data["Дата платежа"], format="%d.%m.%Y")
+    filtered_data_by_date = my_data[
+        (my_data["Дата платежа"].dt.month == month) & (my_data["Дата платежа"].dt.year == year)
+    ]
+    expenses_data = filtered_data_by_date[filtered_data_by_date["Сумма операции"] < 0]
+    cashback_by_category = expenses_data.groupby("Категория")["Сумма операции"].sum().abs()
     cashback_by_category = round((cashback_by_category / 100), 1).to_dict()
+    json_for_services = json.dumps(cashback_by_category, ensure_ascii=False, indent=4)
+    return json_for_services
 
-    return cashback_by_category
 
-
-# data = read_all_data('C:/Users/USER/PycharmProjects/analysis_of_banking_operations/data/operations.xlsx')
-# print(categories_for_cashback(data, 2019, 5))
+# if __name__ == '__main__':
+#     data = read_excel('C:/Users/USER/PycharmProjects/analysis_of_banking_operations/data/operations.xlsx')
+#     print(categories_for_cashback(data, '2021-10-15 15:18:25'))

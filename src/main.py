@@ -1,41 +1,30 @@
-from datetime import datetime
-from pathlib import Path
-from typing import Any
-import pandas as pd
+from src.reports import spending_by_category
+from src.services import categories_for_cashback
+from src.utils import read_excel
+from src.views import json_answer_web
 
 
-def time_of_day(my_datetime: str) -> str:
-    """Функция принимает строку с датой и временем и возвращает строку с приветствием в текущем времени суток"""
-    my_datetime_obj = datetime.strptime(my_datetime, "%Y-%m-%d %H:%M:%S")
-    my_time = my_datetime_obj.time()  # Извлекаем время
+def main(file_path: str, date) -> str:
+    df = read_excel(file_path)
+    print("""Введите категорию для получения JSON-ответа:
+    1. Веб-страницы
+    2. Сервисы
+    3. Отчеты""")
+    while True:
+        user_category = input("Введите целое число от 1 до 3: ")
+        if user_category == "1":
+            print("Ваша категория 'Веб-страницы'.")
+            return json_answer_web(df)
+        elif user_category == "2":
+            print("Ваша категория 'Сервисы'.")
+            return categories_for_cashback(df, date)
+        elif user_category == "3":
+            print("Ваша категория 'Отчеты'.")
+            while True:
+                user_category_payment = input("Введите категорию платежа: ")
+                user_date_report = input("Введите дату для организации отчета: ")
+                result = spending_by_category(df, user_category_payment, user_date_report)
+                return result
 
-    if my_time < datetime.strptime("04:00", "%H:%M").time():
-        return "Доброй ночи"
-    elif my_time < datetime.strptime("11:00", "%H:%M").time():
-        return "Доброе утро"
-    elif my_time < datetime.strptime("16:00", "%H:%M").time():
-        return "Добрый день"
-    else:
-        return "Добрый вечер"
-
-
-def get_cards_group_by_expenses(all_df: pd.DataFrame) -> list[dict[str, float | Any]]:
-    """Функция принимает dataframe с тарнзакциями и возвращает сгруппированный и отфильтрованный словарь
-     с маской номера карты, суммой расходов и кэшбеком по сумме расходов"""
-    # Фильтруем строки, оставляя только расходы
-    filtered_df = all_df.loc[all_df['Сумма операции'] < 0]
-
-    cards_df = filtered_df.groupby(['Номер карты'])  # Группируем по номеру карты
-    new_df = cards_df['Сумма операции'].sum()  # Суммируем операции
-
-    result_list = []  # Создаем пустой список для результатов
-
-    # Добавляем кэшбек и формируем список
-    for card_number, total in new_df.items():
-        result_list.append({
-            "last_digits": card_number,
-            "total_spent": total,
-            "cashback": total / 100  # 1 руб. кэшбек на 100 руб.
-        })
-
-    return result_list
+if __name__ == "__main__":
+    main("C:/Users/USER/PycharmProjects/analysis_of_banking_operations/data/operations.xlsx", "2021-05-20 15:16:17")
