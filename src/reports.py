@@ -1,9 +1,7 @@
 import json
 from datetime import datetime, timedelta
 from typing import Optional
-
 import pandas as pd
-
 from src.utils import read_excel, reports_result
 
 
@@ -24,8 +22,3 @@ def spending_by_category(transactions: pd.DataFrame, category: str, date: Option
     res_dict = res.to_dict()
     json_answer = json.dumps(res_dict, ensure_ascii=False, indent=4)
     return json_answer
-
-
-if __name__ == "__main__":
-    data = read_excel('C:/Users/USER/PycharmProjects/analysis_of_banking_operations/data/operations.xlsx')
-    print(spending_by_category(data, 'Фастфуд', '12.10.2021'))
