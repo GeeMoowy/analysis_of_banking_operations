@@ -9,14 +9,15 @@ PATH_TO_ROOT = Path(__file__).parent.parent
 PATH_TO_DIR = Path(PATH_TO_ROOT, "data")
 
 
-def time_of_day() -> str:
+def time_of_day(my_date: str) -> str:
     """Функция принимает строку с датой и временем и возвращает строку с приветствием в текущем времени суток"""
-    my_time = datetime.now().time()
-    if my_time < datetime.strptime("04:00", "%H:%M").time():
+    my_dt_obj = datetime.strptime(my_date, "%Y-%m-%d %H:%M:%S")
+    time_obj = my_dt_obj.time()
+    if time_obj < datetime.strptime("04:00:00", "%H:%M:%S").time():
         return "Доброй ночи"
-    elif my_time < datetime.strptime("11:00", "%H:%M").time():
+    elif time_obj < datetime.strptime("11:00:00", "%H:%M:%S").time():
         return "Доброе утро"
-    elif my_time < datetime.strptime("16:00", "%H:%M").time():
+    elif time_obj < datetime.strptime("16:00:00", "%H:%M:%S").time():
         return "Добрый день"
     else:
         return "Добрый вечер"
@@ -43,9 +44,12 @@ def reports_result(filename=None):
                 with open(path_to_file, "a", encoding="utf-8") as file:
                     file.write(f"Результат функции {func.__name__} =\n {res}\n")
             else:
-                print(f"{func.__name__} OK\n")  # Выводим данные в консоль
+                print(f"{func.__name__} отработала без записи в файл.\n")  # Выводим данные в консоль
             return res
 
         return wrapper
 
     return inner
+
+
+time_of_day("2021-10-12 15:13:10")

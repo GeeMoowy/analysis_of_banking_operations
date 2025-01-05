@@ -14,7 +14,7 @@ def main(file_path: str, date) -> str:
         user_category = input("Введите целое число от 1 до 3: ")
         if user_category == "1":
             print("Ваша категория 'Веб-страницы'.")
-            return json_answer_web(df)
+            return json_answer_web(df, date)
         elif user_category == "2":
             print("Ваша категория 'Сервисы'.")
             return categories_for_cashback(df, date)

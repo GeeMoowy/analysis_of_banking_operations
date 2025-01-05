@@ -20,9 +20,9 @@ def get_cards_group_by_expenses(df_transaction: pd.DataFrame) -> list[dict[str, 
     return result_list
 
 
-def json_answer_web(data):
+def json_answer_web(data, date):
     my_dict = {
-        "greeting": time_of_day(),
+        "greeting": time_of_day(date),
         "cards": get_cards_group_by_expenses(data)
     }
     result = json.dumps(my_dict, ensure_ascii=False, indent=4)

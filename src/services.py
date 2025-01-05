@@ -3,7 +3,7 @@ from datetime import datetime
 
 import pandas as pd
 
-from src.utils import read_excel
+from src.utils import read_excel, reports_result
 
 
 def categories_for_cashback(my_data: pd.DataFrame, date: str) -> str:
