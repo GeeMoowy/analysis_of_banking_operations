@@ -7,7 +7,7 @@ from src.utils import read_excel, reports_result
 
 
 def categories_for_cashback(my_data: pd.DataFrame, date: str) -> str:
-    """Функция принимает данные для анализа, год и месяц и анализирует,
+    """Функция принимает DataFrame для анализа и дату, и анализирует
     сколько можно заработать кэшбека по каждой категории покупок в указанную дату"""
     date_time_obj = datetime.strptime(date, "%Y-%m-%d %H:%M:%S")
     month = date_time_obj.month
