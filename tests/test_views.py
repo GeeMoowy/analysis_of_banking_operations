@@ -1,6 +1,4 @@
-import pandas as pd
 import json
-import pytest
 from unittest.mock import patch
 from src.views import json_answer_web, get_cards_group_by_expenses
 
