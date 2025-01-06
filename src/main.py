@@ -22,9 +22,6 @@ def main(file_path: str, date) -> str:
             print("Ваша категория 'Отчеты'.")
             while True:
                 user_category_payment = input("Введите категорию платежа: ")
-                user_date_report = input("Введите дату для организации отчета: ")
+                user_date_report = input("Введите дату для организации отчета(например: 10.10.2021): ")
                 result = spending_by_category(df, user_category_payment, user_date_report)
                 return result
-
-if __name__ == "__main__":
-    main("C:/Users/USER/PycharmProjects/analysis_of_banking_operations/data/operations.xlsx", "2021-05-20 15:16:17")

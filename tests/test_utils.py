@@ -1,6 +1,4 @@
-from datetime import datetime, time
 from pathlib import Path
-
 import pandas as pd
 from unittest.mock import patch, mock_open
 import pytest
@@ -10,11 +8,8 @@ from src.utils import read_excel, time_of_day, reports_result
 def test_read_excel(data):
     expected_df = pd.DataFrame(data)
     with patch('pandas.read_excel', return_value=expected_df) as mock_read_excel:
-        # Вызываем функцию
         result_df = read_excel("example.xlsx")
-        # Проверяем, что pd.read_excel был вызван с правильным аргументом
         mock_read_excel.assert_called_once_with("example.xlsx")
-        # Проверяем, что результат соответствует ожидаемому DataFrame
         pd.testing.assert_frame_equal(result_df, expected_df)
 
 
@@ -32,20 +27,12 @@ def test_time_of_day(date, expected):
 def sample_function(x, y):
     return x + y
 
+
 def test_reports_result_with_file():
-    # Используем mock_open для имитации открытия файла
     m = mock_open()
     with patch("builtins.open", m):
-        result = sample_function(3, 4)  # Вызываем декорированную функцию
-
-        # Получаем полный путь к файлу
+        result = sample_function(3, 4)
         expected_path = Path("C:/Users/USER/PycharmProjects/analysis_of_banking_operations/data/test_results.txt")
-
-        # Проверяем, что файл открывается с правильными параметрами
         m.assert_called_once_with(expected_path, "a", encoding="utf-8")
-
-        # Проверяем, что метод write был вызван с правильным аргументом
         m().write.assert_called_once_with("Результат функции sample_function =\n 7\n")
-
-        # Проверяем, что результат функции правильный
         assert result == 7

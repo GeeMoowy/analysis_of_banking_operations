@@ -1,9 +1,6 @@
 import json
 from datetime import datetime
-
 import pandas as pd
-
-from src.utils import read_excel, reports_result
 
 
 def categories_for_cashback(my_data: pd.DataFrame, date: str) -> str:
@@ -19,10 +16,5 @@ def categories_for_cashback(my_data: pd.DataFrame, date: str) -> str:
     expenses_data = filtered_data_by_date[filtered_data_by_date["Сумма операции"] < 0]
     cashback_by_category = expenses_data.groupby("Категория")["Сумма операции"].sum().abs()
     cashback_by_category = round((cashback_by_category / 100), 1).to_dict()
-    json_for_services = json.dumps(cashback_by_category, ensure_ascii=False, indent=4)
+    json_for_services = json.dumps(cashback_by_category, ensure_ascii=False)
     return json_for_services
-
-
-# if __name__ == '__main__':
-#     data = read_excel('C:/Users/USER/PycharmProjects/analysis_of_banking_operations/data/operations.xlsx')
-#     print(categories_for_cashback(data, '2021-10-15 15:18:25'))

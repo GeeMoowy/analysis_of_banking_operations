@@ -1,7 +1,6 @@
 import json
 from typing import Any
 import pandas as pd
-
 from src.utils import time_of_day
 
 
@@ -25,5 +24,5 @@ def json_answer_web(data: pd.DataFrame, date: str):
         "greeting": time_of_day(date),
         "cards": get_cards_group_by_expenses(data)
     }
-    result = json.dumps(my_dict, ensure_ascii=False, indent=4)
+    result = json.dumps(my_dict, ensure_ascii=False)
     return result

@@ -32,10 +32,8 @@ def read_excel(file_path: Union[str, Path]) -> DataFrame:
 def reports_result(filename=None):
     """Внешняя функция, которая принимает аргумент filename для декоратора,
     для создания файла с результатами работы функции"""
-
     def inner(func):
         """Декоратор, принимает функцию для декорирования"""
-
         def wrapper(*args, **kwargs):
             """Функция обертка, которая принимает аргументы декорируемой функции"""
             res = func(*args, **kwargs)
@@ -46,10 +44,5 @@ def reports_result(filename=None):
             else:
                 print(f"{func.__name__} отработала без записи в файл.\n")  # Выводим данные в консоль
             return res
-
         return wrapper
-
     return inner
-
-
-time_of_day("2021-10-12 15:13:10")

@@ -11,8 +11,8 @@ def test_categories_for_cashback():
     }
     my_data = pd.DataFrame(data)
     expected_result = {
-        "Еда": 4.0,  # 100 + 200 = 300, 300 / 100 = 3.0
-        "Развлечения": 4.0,  # 400 / 100 = 4.0
+        "Еда": 4.0,
+        "Развлечения": 4.0,
         "Транспорт": 2.0
     }
     result = categories_for_cashback(my_data, "2021-01-20 00:00:00")
