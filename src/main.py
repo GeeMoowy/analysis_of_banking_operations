@@ -5,6 +5,7 @@ from src.views import json_answer_web
 
 
 def main(file_path: str, date) -> str:
+    """Главная функция для получения JSON-ответов по категориям. Принимает путь к файлу и дату"""
     df = read_excel(file_path)
     print("""Введите категорию для получения JSON-ответа:
     1. Веб-страницы
